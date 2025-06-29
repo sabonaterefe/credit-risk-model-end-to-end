@@ -1,4 +1,4 @@
-#This repository contains a full-stack implementation of a credit risk scoring system using alternative behavioral data from an eCommerce platform. The project is developed as part of the 10 Academy AI Mastery program in collaboration with Bati Bank and Xente.
+#This repository contains a full-stack implementation of a credit risk scoring system using alternative behavioral data from an eCommerce platform. The project is developed in collaboration with Bati Bank and Xente.
 
 Project Objective:
 To build, deploy, and automate a machine learning pipeline that predicts the creditworthiness of customers using behavioral transaction data. The system enables a Buy-Now-Pay-Later (BNPL) service by assigning risk probabilities, credit scores, and optimal loan terms to new applicants.
