@@ -1,3 +1,4 @@
+
 Credit Scoring Business Understanding
 
 # Task 1 - Understanding Credit Risk
@@ -20,6 +21,8 @@ Since we lack a direct label for loan default, we must engineer a proxy variable
  3. Model Trade-offs in a Regulated Context  
 Simple models like Logistic Regression with Weight of Evidence (WoE) are highly interpretable and align well with regulatory expectations. However, they may underperform on complex, nonlinear data. Advanced models like Gradient Boosting Machines (GBMs) offer better predictive power but are harder to explain. In regulated environments, the trade-off is between transparency and performance. A hybrid approach—using complex models internally and interpretable models for decision justification—can offer the best of both worlds.
 
+
+#This repository contains a full-stack implementation of a credit risk scoring system using alternative behavioral data from an eCommerce platform. The project is developed in collaboration with Bati Bank and Xente.
 
 Project Objective:
 To build, deploy, and automate a machine learning pipeline that predicts the creditworthiness of customers using behavioral transaction data. The system enables a Buy-Now-Pay-Later (BNPL) service by assigning risk probabilities, credit scores, and optimal loan terms to new applicants.
