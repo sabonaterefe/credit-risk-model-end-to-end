@@ -1,21 +1,27 @@
-# Use a lightweight Python base image
 FROM python:3.10-slim
 
-# Set the working directory inside the container
+# Set environment variable to suppress pip root warning
+ENV PIP_ROOT_USER_ACTION=ignore
+
+# Set working directory
 WORKDIR /app
 
 # Copy and install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code
+# Copy the rest of the code
 COPY . .
 
-# Ensure the start.sh script uses Unix line endings and is executable
+# Fix line endings and make start.sh executable
 RUN sed -i 's/\r$//' start.sh && chmod +x start.sh
 
-# Expose the port Streamlit will run on
+# Optional: create a non-root user (best practice)
+RUN adduser --disabled-password --gecos '' appuser
+USER appuser
+
+# Expose the port used by Streamlit
 EXPOSE 10000
 
-# Run the app using the startup script
+# Run the app
 CMD ["./start.sh"]
