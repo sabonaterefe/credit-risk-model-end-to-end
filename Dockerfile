@@ -20,8 +20,9 @@ RUN sed -i 's/\r$//' start.sh && chmod +x start.sh
 RUN adduser --disabled-password --gecos '' appuser
 USER appuser
 
-# Expose the port used by Streamlit
+# Expose both FastAPI and Streamlit ports
+EXPOSE 8000
 EXPOSE 10000
 
-# Run the app
+# Run both apps
 CMD ["./start.sh"]
