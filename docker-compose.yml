@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    container_name: credit-risk-app
+    ports:
+      - "7860:7860"  # Streamlit
+      - "8000:8000"  # FastAPI
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: bash start.sh
