@@ -13,7 +13,6 @@ license: MIT
 ---
 =======
 #This repository contains a full-stack implementation of a credit risk scoring system using alternative behavioral data from an eCommerce platform. The project is developed in collaboration with Bati Bank and Xente.
->>>>>>> 9c009cc (Update README.md)
 
 # Credit Risk Model — End to End
 
