@@ -1,0 +1,22 @@
+artifact_path: file:///C:/Users/User/credit-risk-model-end-to-end/mlruns/445104729602146384/models/m-d9db31728122408daba1a2dc71309def/artifacts
+flavors:
+  python_function:
+    data: model.xgb
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.xgboost
+    python_version: 3.13.5
+  xgboost:
+    code: null
+    data: model.xgb
+    model_class: xgboost.sklearn.XGBClassifier
+    model_format: xgb
+    xgb_version: 3.0.2
+mlflow_version: 3.1.1
+model_id: m-d9db31728122408daba1a2dc71309def
+model_size_bytes: 170409
+model_uuid: m-d9db31728122408daba1a2dc71309def
+prompts: null
+run_id: 44140b6258c64907b46a2a2441ad9aff
+utc_time_created: '2025-07-02 06:17:45.510487'

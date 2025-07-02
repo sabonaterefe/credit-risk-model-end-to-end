@@ -1,0 +1,10 @@
+artifact_location: file:///C:/Users/User/credit-risk-model-end-to-end/mlruns/445104729602146384/models/m-15522a4b647c4a86aa362151f585a38b/artifacts
+creation_timestamp: 1751440640655
+experiment_id: '445104729602146384'
+last_updated_timestamp: 1751440652036
+model_id: m-15522a4b647c4a86aa362151f585a38b
+model_type: null
+name: xgb_model
+source_run_id: dcd3d1ed389b43cb91a385ed40ab3e41
+status: 2
+status_message: null

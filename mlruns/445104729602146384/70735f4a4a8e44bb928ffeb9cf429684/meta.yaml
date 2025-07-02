@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/User/credit-risk-model-end-to-end/mlruns/445104729602146384/70735f4a4a8e44bb928ffeb9cf429684/artifacts
+end_time: 1751440088515
+entry_point_name: ''
+experiment_id: '445104729602146384'
+lifecycle_stage: active
+run_id: 70735f4a4a8e44bb928ffeb9cf429684
+run_name: amusing-skunk-28
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1751440076251
+status: 3
+tags: []
+user_id: User

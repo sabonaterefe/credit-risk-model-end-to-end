@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/User/credit-risk-model-end-to-end/mlruns/445104729602146384/238dee4b8aac4607b8837e263794c6a3/artifacts
+end_time: 1751438577872
+entry_point_name: ''
+experiment_id: '445104729602146384'
+lifecycle_stage: active
+run_id: 238dee4b8aac4607b8837e263794c6a3
+run_name: redolent-yak-832
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1751438568825
+status: 3
+tags: []
+user_id: User

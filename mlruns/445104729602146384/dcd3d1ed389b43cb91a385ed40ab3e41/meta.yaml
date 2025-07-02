@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/User/credit-risk-model-end-to-end/mlruns/445104729602146384/dcd3d1ed389b43cb91a385ed40ab3e41/artifacts
+end_time: 1751440652064
+entry_point_name: ''
+experiment_id: '445104729602146384'
+lifecycle_stage: active
+run_id: dcd3d1ed389b43cb91a385ed40ab3e41
+run_name: rare-zebra-547
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1751440640320
+status: 3
+tags: []
+user_id: User
