@@ -1,85 +1,102 @@
+---
+title: Credit Risk App
+emoji: 🚀
+colorFrom: red
+colorTo: red
+sdk: docker
+app_port: 8501
+tags:
+- streamlit
+pinned: false
+short_description: End-to-end ML credit risk prediction using behavioral data
+license: MIT
+---
+=======
+#This repository contains a full-stack implementation of a credit risk scoring system using alternative behavioral data from an eCommerce platform. The project is developed in collaboration with Bati Bank and Xente.
 
-Credit Scoring Business Understanding
+# Credit Risk Model — End to End
 
-#Understanding Credit Risk
+This project delivers a full-stack credit scoring system using alternative behavioral data from an eCommerce platform. Built as part of the 10 Academy AI Mastery program in collaboration with Bati Bank and Xente, it enables Buy-Now-Pay-Later (BNPL) services by predicting customer creditworthiness.
 
-This section summarizes the business and regulatory context for building a credit scoring model using alternative data, based on the following references:
+---
 
-- https://www3.stat.sinica.edu.tw/statistica/oldpdf/A28n535.pdf  
-- https://www.hkma.gov.hk/media/eng/doc/key-functions/financial-infrastructure/alternative_credit_scoring.pdf  
-- https://thedocs.worldbank.org/en/doc/935891585869698451-0130022020/original/CREDITSCORINGAPPROACHESGUIDELINESFINALWEB.pdf  
-- https://towardsdatascience.com/how-to-develop-a-credit-risk-model-and-scorecard-91335fc01f03  
-- https://corporatefinanceinstitute.com/resources/commercial-lending/credit-risk/  
-- https://www.risk-officer.com/Credit_Risk.htm  
+## Objective
 
- 1. Basel II and Model Interpretability  
-The Basel II Accord emphasizes the importance of quantifying and managing credit risk through internal models. It requires financial institutions to use models that are transparent, interpretable, and auditable. This means our credit scoring model must not only be accurate but also explainable to regulators and stakeholders. Interpretability ensures trust, supports compliance, and enables responsible lending decisions.
+To build, deploy, and automate a machine learning pipeline that:
+- Predicts credit risk using behavioral transaction data
+- Generates credit scores and risk probabilities
+- Optimizes loan terms for new applicants
 
- 2. Why Use a Proxy Variable?  
-Since we lack a direct label for loan default, we must engineer a proxy variable—such as one based on behavioral patterns like Recency, Frequency, and Monetary (RFM) activity. This allows us to train a supervised model. However, using a proxy introduces risk: if the proxy poorly reflects true creditworthiness, the model may misclassify customers, leading to financial losses or unfair credit decisions. Careful validation and alignment with business goals are essential.
+---
 
- 3. Model Trade-offs in a Regulated Context  
-Simple models like Logistic Regression with Weight of Evidence (WoE) are highly interpretable and align well with regulatory expectations. However, they may underperform on complex, nonlinear data. Advanced models like Gradient Boosting Machines (GBMs) offer better predictive power but are harder to explain. In regulated environments, the trade-off is between transparency and performance. A hybrid approach—using complex models internally and interpretable models for decision justification—can offer the best of both worlds.
+## Business Context
 
+Traditional credit scoring fails in low-data environments. We use Recency, Frequency, and Monetary (RFM) patterns to engineer a proxy for credit default, enabling supervised learning in the absence of formal credit history.
 
+---
 
-#About the project:
+## Key Features
 
-This repository contains a full-stack implementation of a credit risk scoring system using alternative behavioral data from an eCommerce platform. The project is developed in collaboration with Bati Bank and Xente.
+- Proxy variable creation from behavioral data
+- Feature engineering and model training
+- Risk probability and credit score generation
+- FastAPI backend for real-time scoring
+- Streamlit frontend for user interaction
+- CI/CD with GitHub Actions
+- MLflow for model tracking
+- Dockerized for Hugging Face deployment
 
-Project Objective:
-To build, deploy, and automate a machine learning pipeline that predicts the creditworthiness of customers using behavioral transaction data. The system enables a Buy-Now-Pay-Later (BNPL) service by assigning risk probabilities, credit scores, and optimal loan terms to new applicants.
+---
 
-Business Context:
-Bati Bank is partnering with a fast-growing eCommerce company to offer credit-based purchases. Traditional credit scoring methods are not feasible due to the lack of formal credit history. Instead, we leverage Recency, Frequency, and Monetary (RFM) patterns from transaction data to engineer a proxy for credit risk.
+## Credit Scoring Principles
 
-Features:
-Proxy variable creation for credit default classification
+1. Basel II Compliance: Models must be interpretable, auditable, and regulator-friendly.
+2. Proxy Variables: Behavioral proxies (RFM) substitute for missing default labels.
+3. Model Trade-offs: Logistic Regression (WoE) for transparency; XGBoost for performance. A hybrid approach balances both.
 
-Feature engineering from behavioral data
+---
 
-Risk probability prediction using ML models
+##  Tech Stack
 
-Credit score generation from risk estimates
+| Layer         | Tools Used                                      |
+|---------------|--------------------------------------------------|
+| Language      | Python 3.10+                                     |
+| ML Libraries  | Scikit-learn, XGBoost                            |
+| Backend       | FastAPI                                          |
+| Frontend      | Streamlit                                        |
+| MLOps         | MLflow, GitHub Actions                           |
+| Deployment    | Docker, Docker Compose, Hugging Face Spaces      |
+| Data Tools    | Pandas, NumPy, Matplotlib, Seaborn               |
 
-Loan amount and duration optimization
+---
 
-FastAPI-based scoring API
+## How It Works
 
-CI/CD with GitHub Actions
+1. User Input: Streamlit UI collects applicant data
+2. API Call: FastAPI receives input and returns predictions
+3. Model Inference: ML model estimates risk and credit score
+4. Output: Streamlit displays results with loan recommendations
 
-Model tracking with MLflow
+---
 
-Containerization with Docker
+## Customize the App
 
-Credit Scoring Business Understanding
-1. Basel II and Model Interpretability:
-Basel II requires financial institutions to quantify and justify credit risk. This mandates interpretable, auditable models that regulators and stakeholders can trust.
+- Modify `/src/streamlit_app.py` for UI
+- Update `/src/api/main.py` for API logic
+- Adjust `start.sh` and `Dockerfile` for deployment
 
-2. Why Use a Proxy Variable?:
-In the absence of a direct "default" label, we engineer a proxy using behavioral signals. This enables supervised learning but introduces risks if the proxy poorly reflects true creditworthiness.
+---
 
-3. Model Trade-offs:
-Simple models (e.g., Logistic Regression with WoE) offer transparency but may lack predictive power. Complex models (e.g., Gradient Boosting) perform better but are harder to interpret. A hybrid approach balances compliance and performance.
+## License
 
-Tech Stack:
-Python 3.10+
+MIT
 
-Scikit-learn, XGBoost
+---
 
-FastAPI
+## Live Demo
 
-MLflow
+👉 [Launch on Hugging Face](https://sabona333-credit-risk-app.hf.space)  
+👉 [API Docs](https://sabona333-credit-risk-app.hf.space/api/docs)
 
-Docker & Docker Compose
-
-GitHub Actions (CI/CD)
-
-Pandas, NumPy, Matplotlib, Seaborn
-
-
-#New commit in readme 
-
-
-
+---
 
