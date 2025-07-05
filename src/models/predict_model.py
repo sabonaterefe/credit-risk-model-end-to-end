@@ -4,7 +4,7 @@ import pandas as pd
 import joblib
 import shap
 
-# ✅ Ensure project root is in sys.path so 'src' is importable
+# ✅ Add project root to sys.path for import compatibility
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")))
 
 # 🔧 Load the trained pipeline
@@ -35,13 +35,10 @@ def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
 # 🔮 Predict risk and explain with SHAP
 def predict_risk(pipeline, input_df: pd.DataFrame):
     df = engineer_features(input_df)
-
-    # Predict
     proba = pipeline.predict_proba(df)[:, 1]
     label = int(proba[0] > 0.5)
     risk_band = classify_risk_band(proba[0])
 
-    # SHAP explanation
     model = pipeline.named_steps["classifier"]
     preprocessor = pipeline.named_steps["preprocessor"]
     X_transformed = preprocessor.transform(df)
@@ -62,7 +59,6 @@ def predict_risk(pipeline, input_df: pd.DataFrame):
     }).sort_values(by="shap_value", key=abs, ascending=False)
 
     top_features = shap_df.head(3).to_dict(orient="records")
-
     return label, proba[0], risk_band, top_features
 
 # ▶️ CLI test entry point
@@ -71,8 +67,6 @@ if __name__ == "__main__":
 
     try:
         pipeline = load_pipeline()
-
-        # Sample high-risk input
         sample_input = pd.DataFrame([{
             "Amount": 95000.0,
             "Value": 10.0,
