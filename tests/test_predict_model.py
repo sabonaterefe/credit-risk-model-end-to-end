@@ -20,3 +20,4 @@ def test_predict_risk_output_shape():
     assert risk_band in ["Low", "Medium", "High"]
     assert isinstance(top_features, list)
     assert len(top_features) > 0
+#New commit
