@@ -1,20 +1,12 @@
 import streamlit as st
 import pandas as pd
-import joblib
-import os
-import sys
 from datetime import datetime
-from src.models.predict_model import predict_risk
+from src.models.predict_model import load_pipeline, predict_risk
 
-# 📦 Add project root to path
-project_root = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, project_root)
+# 🎯 Load pipeline
+pipeline = load_pipeline("models/fitted_pipeline.pkl")
 
-# 🎯 Load model and pipeline
-model = joblib.load("models/final_cv_model.pkl")
-pipeline = joblib.load("models/fitted_pipeline.pkl")
-
-# 📊 Load dataset to extract dropdown options
+# 📊 Load dropdown options
 @st.cache_data
 def load_dropdown_options():
     df = pd.read_csv("data/processed/cleaned_transactions.csv")
@@ -30,29 +22,12 @@ options = load_dropdown_options()
 st.set_page_config(
     page_title="Credit Risk Predictor",
     page_icon="💳",
-    layout="centered",
-    initial_sidebar_state="expanded"
+    layout="centered"
 )
 
-# 🎨 Sidebar
-with st.sidebar:
-    st.image("https://img.icons8.com/ios-filled/100/credit-card.png", width=80)
-    st.title("💼 Credit Risk App")
-    st.markdown(
-        """
-        This app predicts whether a customer is **high risk** based on their transaction behavior.
-
-        🔍 Powered by XGBoost  
-        🧠 Trained on RFM features  
-        🐍 Built with FastAPI + Streamlit  
-        """
-    )
-    st.markdown("---")
-    st.caption("Developed by Sabona • 2025")
-
 # 🧾 Main UI
-st.title("💳 Credit Risk Prediction")
-st.markdown("Fill in the transaction details below to assess risk.")
+st.title("🔍 Credit Risk Prediction")
+st.markdown("Enter transaction details below to evaluate the customer's credit risk.")
 
 prediction_result = None
 input_df = None
@@ -71,14 +46,14 @@ with st.form("prediction_form"):
 
     txn_time = st.text_input(
         "🕒 Transaction Start Time",
-        value="2018-11-15 02:18:49+00:00",
+        value="2018-11-15 03:12:00+00:00",
         placeholder="YYYY-MM-DD HH:MM:SS+00:00"
     )
 
     submitted = st.form_submit_button("🔮 Predict Risk")
 
 if submitted:
-    with st.spinner("🔍 Analyzing transaction and scoring risk..."):
+    with st.spinner("Scoring risk..."):
         input_df = pd.DataFrame([{
             "Amount": amount,
             "Value": value,
@@ -89,7 +64,6 @@ if submitted:
             "TransactionStartTime": txn_time
         }])
 
-        # Ensure numeric fields are valid
         input_df["Amount"] = pd.to_numeric(input_df["Amount"], errors="coerce")
         input_df["Value"] = pd.to_numeric(input_df["Value"], errors="coerce")
 
@@ -97,46 +71,52 @@ if submitted:
             st.error("❌ Invalid numeric input. Please check 'Amount' and 'Value'.")
         else:
             try:
-                X = pipeline.transform(input_df)
-                label, proba = predict_risk(model, X)
-                prediction_result = (label[0], proba[0])
+                label, proba, risk_band, top_features = predict_risk(pipeline, input_df)
+                prediction_result = {
+                    "label": label,
+                    "probability": proba,
+                    "risk_band": risk_band,
+                    "top_features": top_features
+                }
             except Exception as e:
                 st.exception(f"Prediction failed: {e}")
 
-# 🎯 Display results after form
+# 🎯 Display results
 if prediction_result:
-    label, proba = prediction_result
     st.markdown("---")
-    st.subheader("📊 Prediction Result")
+    st.subheader("📊 Prediction Summary")
 
-    if label == 1:
-        st.markdown(
-            "<div style='background-color:#ffe6e6;padding:20px;border-radius:10px;'>"
-            "<h3 style='color:#cc0000;'>🚨 High Risk Customer</h3>"
-            f"<p style='font-size:18px;'>This customer has a <strong>{proba*100:.4f}%</strong> probability of being high risk.</p>"
-            "</div>",
-            unsafe_allow_html=True
-        )
-    else:
-        st.markdown(
-            "<div style='background-color:#e6ffe6;padding:20px;border-radius:10px;'>"
-            "<h3 style='color:#006600;'>✅ Low Risk Customer</h3>"
-            f"<p style='font-size:18px;'>This customer has a <strong>{proba*100:.4f}%</strong> probability of being high risk.</p>"
-            "</div>",
-            unsafe_allow_html=True
-        )
+    risk_color = {
+        "Low": "#e6ffe6",
+        "Medium": "#fff8e6",
+        "High": "#ffe6e6"
+    }
+    text_color = {
+        "Low": "#006600",
+        "Medium": "#cc9900",
+        "High": "#cc0000"
+    }
 
-    st.metric("📈 Risk Probability", f"{proba:.6f}")
+    band = prediction_result["risk_band"]
+    prob = prediction_result["probability"] * 100
 
-    with st.expander("🔍 View Input Details"):
+    st.markdown(
+        f"""
+        <div style='background-color:{risk_color[band]};padding:20px;border-radius:10px;'>
+            <h3 style='color:{text_color[band]};'>🧠 {band} Risk Customer</h3>
+            <p style='font-size:18px;'>This customer has a <strong>{prob:.2f}%</strong> probability of defaulting on credit.</p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.metric("📈 Risk Probability", f"{prediction_result['probability']:.6f}")
+
+    with st.expander("🔍 Top Contributing Features"):
+        for feat in prediction_result["top_features"]:
+            st.markdown(f"- **{feat['feature']}**: SHAP = `{feat['shap_value']:.4f}`")
+
+    with st.expander("📋 Input Details"):
         st.dataframe(input_df.astype(str).T.rename(columns={0: "Value"}))
 
     st.caption(f"🕒 Prediction generated at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-
-    st.markdown("---")
-    st.info("Was this prediction helpful?")
-    col_yes, col_no = st.columns(2)
-    with col_yes:
-        st.button("👍 Yes")
-    with col_no:
-        st.button("👎 No")
